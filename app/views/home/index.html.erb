@@ -15,11 +15,12 @@
 
         <div id="topstory-perex">
           <p class="bb box"><%= image_tag('image-03.gif', :alt=>'', :width=>200, :height=>150, class:'f-left') %>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing. Maurisi estem potor odio quis diam.
-            Integer vulputate. Asecum sociis natoque pes et magnis parturient <a href="#">nascetur ridiculusa</a>
-            muses. Class maptent taciti sociosqu ad litora torquent aer estesilae conubia nostra, per inceptos hymenaeos.
-            In viverra nibheme esta egetleo. Nam id sem sit amet maurisameis molestie atei. Quilesque at nisi sit ami ipsum
-            tiname cidunt rhoncus.</p>
+            dddddddddddddddddddddddddddddd
+            <%= form_tag({action: :upload}, multipart: true) do %>
+                <%= file_field_tag 'video' %>
+                <%= submit_tag 'upload' %>
+            <% end %>
+          </p>
         </div>
 
       </div>

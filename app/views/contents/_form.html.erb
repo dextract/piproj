@@ -16,6 +16,18 @@
     <%= f.text_field :description %>
   </div>
   <div class="field">
+     <%= f.label :url %><br>
+     <%= f.text_field :url %>
+   </div>
+    <div class="field">
+      <%= f.label :type %><br>
+      <%= f.select :type, Content.types.map {|r| [r.humanize, r.camelcase]}, {}, disabled: @type != "Content" %>
+      <% if @type != "Content" %>
+          <%= f.hidden_field :type, value: @type %>
+      <% end %>
+    </div>
+  <div class="field">
+    <%= f.label :user %><br>
     <%= f.collection_select(:user_id, User.all, :id, :name) %>
   </div>
   <div class="actions">
