@@ -1,6 +1,27 @@
 <div id="header" class="box">
   <h1 id="logo"><a href="#">CampusTV</a></h1>
   <p id="slogan">Saiba tudo do que se passa na FCT!</p>
+
+
+    <div id="login">
+
+      <% if signed_in? %>
+            Bem-vindo, <%= current_user.name %>! <%= link_to "Sign out", signout_path, method: "delete" %>
+      <% else %>
+              <%= form_for :session, url: url_for(:controller => 'sessions', :action => 'create') do |f| %>
+                  <%= f.label :name %>
+                  <%= f.text_field :name, class: "login-input" %>
+
+                  <%= f.label :password %>
+                  <%= f.password_field :password, class: "login-input" %>
+
+                  <%= f.submit "Sign in", class: "login-submit" %>
+              <% end %>
+          <span>Utilizador novo? <%= link_to "Registe-se!", signup_path %></span>
+      <% end %>
+
+    </div>
+
   <div id="search">
     <form action="" method="get">
       <div>

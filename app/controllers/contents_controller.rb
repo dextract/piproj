@@ -1,5 +1,5 @@
 class ContentsController < ApplicationController
-  before_action :set_content, only: [:show, :edit, :update, :destroy]
+  before_action :set_content, only: [:show, :edit, :update, :destroy, :bookmark]
   before_action :set_type
 
   # GET /contents
@@ -59,6 +59,80 @@ class ContentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to contents_url, notice: 'Content was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  # Upload the video to the VideoServer
+  def uploadToServer
+    require 'net/http'
+    require 'uri'
+    uri = URI.parse('http://10.22.104.158:8080/videos/upload')
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Put.new(uri.path, {'Content-Type' => 'video/*'})
+    request.body = params[:video].read
+    response = http.request(request)
+    redirect_to contents_url, notice: 'Content was successfully uploaded to the server.'+response.body
+  end
+
+  def setPlaylist
+
+    require 'net/http'
+    require 'uri'
+
+    vid = params[:vidurl]
+
+    result = ''
+
+    vid.each_line do |line|
+     result = result + line.split[0] + "\n"
+    end
+
+    @playlist = Nokogiri::XML(File.open("/home/dextract/playlist.xml")) do |config|
+      config.default_xml.noblanks
+    end
+
+    last_id = @playlist.xpath("//item[last()]/@id").first.value
+    last_item = @playlist.xpath("//list").first
+
+    result.each_line do |line|
+      line.delete!("\n")
+      last_id = last_id.to_i + 1
+      name_node = Nokogiri::XML::Node.new("video",@playlist)
+      name_node.set_attribute('id', line)
+      data_node = Nokogiri::XML::Node.new("item",@playlist)
+      data_node.add_child(name_node)
+      data_node.set_attribute('id', last_id)
+      data_node.set_attribute('tipo', 'video')
+      last_item.add_previous_sibling(data_node)
+    end
+
+    file = File.open("/home/dextract/playlist_new.xml", 'w+')
+    file.puts @playlist.to_xml(:indent => 2)
+
+    uri = URI.parse('http://10.170.138.22:8000/playlists/update/1')
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Post.new(uri.path, {'Content-Type' => 'text/xml'})
+    request.body = @playlist.to_xml(:indent => 2, :encoding => "UTF-8")
+    response = http.request(request)
+
+    flash[:notice] = response.message+' '+response.body
+    render :js => 'window.location.reload()'
+  end
+
+
+  def bookmark
+    typeAction = params[:typeAction]
+    if typeAction == "bookmark"
+      current_user.bookmarked << @content
+      redirect_to :back, notice: "You bookmarked #{@content.description}"
+
+    elsif typeAction == "unbookmark"
+      current_user.bookmarked.delete(@content)
+      redirect_to :back, notice: "You unbookmarked #{@content.description}"
+
+    else
+      # Type missing, nothing happens
+      redirect_to :back, notice: 'Nothing happened.'
     end
   end
 

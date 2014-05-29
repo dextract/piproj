@@ -1,6 +1,9 @@
 <div id="content" class="box">
 
+  <p id="notice"><%= notice %></p>
+
     <div class="box">
+
 
       <div id="topstory">
 
@@ -16,7 +19,7 @@
         <div id="topstory-perex">
           <p class="bb box"><%= image_tag('image-03.gif', :alt=>'', :width=>200, :height=>150, class:'f-left') %>
             dddddddddddddddddddddddddddddd
-            <%= form_tag({action: :upload}, multipart: true) do %>
+            <%= form_tag('contents/uploadToServer', multipart: true) do %>
                 <%= file_field_tag 'video' %>
                 <%= submit_tag 'upload' %>
             <% end %>

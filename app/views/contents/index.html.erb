@@ -1,4 +1,12 @@
-<h1>Listing <%= "#{@type.pluralize}" %></h1>
+<h1>Listing
+  <% if @type != "Content" %>
+      <%=  "#{@type.pluralize}" %>
+  <% else %>
+      <%=  "#{@type}" %>
+  <% end %>
+</h1>
+
+<p id="notice"><%= notice %></p>
 
 <table>
   <thead>
@@ -18,6 +26,11 @@
         <td><%= content.url %></td>
         <td><%= content.type %></td>
         <td><%= content.user.name %></td>
+        <% if !current_user.bookmarks.find_by_content_id(content.id)  %>
+            <td><%= link_to "Bookmark", bookmark_content_path(content, typeAction: "bookmark"), method: :put %></td>
+        <% else %>
+            <td><%= link_to "Unbookmark", bookmark_content_path(content, typeAction: "unbookmark"), method: :put %></td>
+        <% end %>
         <td><%= link_to 'Show', sti_content_path(content.type, content) %></td>
         <td><%= link_to 'Edit', sti_content_path(content.type, content, :edit) %></td>
         <td><%= link_to 'Destroy', sti_content_path(content.type, content), method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -28,6 +41,13 @@
 </table>
 
 <br>
+
+
+<%#= collection_select :content, :content_id, Video.all, :id, :full_name, {multiple: "multiple"}, {class: "multiselect"} %>
+
+    <%= select(:content, :content_id, Video.all.map {|p| [p.full_name, p.url]}, {}, { class: "multiselect", :multiple => "multiple", :style => "width:300px"}) %>
+    <%= button_tag 'Set playlist', {class: "button"} %>
+
 
 <%= link_to "New #{@type}", sti_content_path(@type, nil, :new) %>
 <%= link_to 'See all content', sti_content_path %>

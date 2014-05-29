@@ -66,6 +66,8 @@ legend {position:absolute; top:-1em; margin:0; padding:5px 10px; font-size:100%;
 
 .bigger {font-size:110%;}
 .smaller {font-size:85%;}
+
+.button {position:relative; left: 46.5%; bottom: 10%; padding:2px; font:normal 100%/1.2 "arial",sans-serif; border:1px solid #00B200; background:#00B200; color:#FFF;}
     
 /* ----------------------------------------------------------------------------------------------------------
 3) LAYOUT
@@ -78,6 +80,13 @@ legend {position:absolute; top:-1em; margin:0; padding:5px 10px; font-size:100%;
         #logo {margin:0; font-weight:normal; color:#000;}
         
         #slogan {margin:0; color:#7F7F7F;}
+
+        #login {position:absolute; left:33%; bottom:20%; padding:7px; background:#EFEFEF;}
+        #login .login-input {width:80px; padding:3px; border:1px solid #AFAFAF;}
+        #login .login-input:focus {border:1px solid #5F5F5F;}
+        #login .login-submit {padding:2px; font:normal 100%/1.2 "arial",sans-serif; border:1px solid #00B200; background:#00B200; color:#FFF;}
+        #login span {position:relative; left:30%; top:10%;}
+
         
         #search {position:absolute; bottom:15px; right:0; padding:7px; background:#EFEFEF;}
         #search #search-input {width:175px; padding:3px; border:1px solid #AFAFAF;}
