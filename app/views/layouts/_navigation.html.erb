@@ -1,11 +1,26 @@
+<%  cur_page = request.env['PATH_INFO']
+    if cur_page == '/'
+      home = true;
+    end
+    if cur_page == '/users'
+      users = true;
+    end
+    if cur_page.include? '/users/'
+      user_cp = true;
+    end
+    if cur_page == '/contents'
+      contents = true;
+    end
+    if cur_page.include? '/contents/'
+      contents_cp = true;
+    end
+%>
+
 <div id="nav" class="box">
   <ul>
-    <li id="nav-active"><a href="#">Menu 1</a></li>
-    <li><a href="#">Menu 2</a></li>
-    <li><a href="#">Menu 3</a></li>
-    <li><a href="#">Menu 4</a></li>
-    <li><a href="#">Menu 5</a></li>
-    <li><a href="#">Menu 6</a></li>
-    <li><a href="#">Menu 7</a></li>
+    <li><%= link_to "Home", root_path, :class => (home ? "nav-active" : nil)%></li>
+    <li><%= link_to "Users", users_path, :class => (users ? "nav-active" : nil) %></li>
+    <li><%= link_to "Contents", contents_path, :class => (contents ? "nav-active" : nil) %></li>
   </ul>
 </div>
+
