@@ -15,3 +15,12 @@ test:
   pool: 5
   username: piproj
   password: piproj
+
+production:
+  adapter: postgresql
+  host: localhost
+  encoding: unicode
+  database: myapp_development
+  pool: 5
+  username: piproj
+  password: piproj
