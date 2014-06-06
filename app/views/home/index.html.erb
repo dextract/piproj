@@ -15,14 +15,9 @@
             <a href="#">18 comments</a>
           </p>
         </div>
-
         <div id="topstory-perex">
-          <p class="bb box"><%= image_tag('image-03.gif', :alt=>'', :width=>200, :height=>150, class:'f-left') %>
-            dddddddddddddddddddddddddddddd
-            <%= form_tag('contents/uploadToServer', multipart: true) do %>
-                <%= file_field_tag 'video' %>
-                <%= submit_tag 'upload' %>
-            <% end %>
+          <p class="bb box"><iframe width="400" height="300" style="float:left" src="<%= "http://www.youtube.com/embed/"+Video.first.url %>" frameborder="0"></iframe>
+            Lorem ipsum dolor consectetuer adipiscing elit. Mauris estemesti porttitor odio quis diam. Integere vulputate. Asecum sociamet.
           </p>
         </div>
 

@@ -5,9 +5,7 @@
     <div id="login">
 
       <% if signed_in? %>
-            Bem-vindo, <%= current_user.name %>!
-            <%= link_to "Profile", current_user %>
-          | <%= link_to "Settings", edit_user_path(current_user) %>
+            Bem-vindo, <%= link_to current_user.name, current_user %>!
           | <%= link_to "Sign out", signout_path, method: "delete" %>
       <% else %>
               <%= form_for :session, url: url_for(:controller => 'sessions', :action => 'create') do |f| %>

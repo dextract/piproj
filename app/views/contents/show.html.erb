@@ -20,5 +20,8 @@
   <%= @content.user.name %>
 </p>
 
+<iframe width="420" height="345" src="<%= "http://www.youtube.com/embed/"+@content.url %>" frameborder="0"></iframe>
+<br>
+
 <%= link_to 'Edit', edit_content_path(@content) %> |
 <%= link_to 'Back', contents_path %>

@@ -1,5 +1,6 @@
 <h1>Listing bookmarks</h1>
 
+<% if current_user.admin? %>
 <table>
   <thead>
     <tr>
@@ -12,8 +13,8 @@
   <tbody>
     <% @bookmarks.each do |bookmark| %>
       <tr>
-        <td><%= bookmark.user_id %></td>
-        <td><%= bookmark.content_id %></td>
+        <td><%= link_to bookmark.user.name, user_path(bookmark.user) %></td>
+        <td><%= link_to bookmark.content.description, content_path(bookmark.content) %></td>
         <td><%= link_to 'Show', bookmark %></td>
         <td><%= link_to 'Edit', edit_bookmark_path(bookmark) %></td>
         <td><%= link_to 'Destroy', bookmark, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -24,4 +25,26 @@
 
 <br>
 
-<%= link_to 'New Bookmark', new_bookmark_path %>
+<h2><%= link_to 'New Bookmark', new_bookmark_path %></h2>
+<% else %>
+<table>
+  <thead>
+  <tr>
+    <th>Content</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% current_user.bookmarked.each do |bookmark| %>
+      <tr>
+        <td><%= bookmark.content.description %></td>
+        <td><%= link_to 'Show', bookmark %></td>
+        <td><%= link_to 'Destroy', bookmark, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+<% end %>

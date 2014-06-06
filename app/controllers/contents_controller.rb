@@ -1,12 +1,13 @@
 class ContentsController < ApplicationController
   before_action :set_content, only: [:show, :edit, :update, :destroy, :bookmark]
   before_action :set_type
+  before_action :verify_login
 
   # GET /contents
   # GET /contents.json
   def index
     #@contents = Content.all
-    @contents = type_class.all
+      @contents = type_class.all
   end
 
   # GET /contents/1
@@ -66,7 +67,7 @@ class ContentsController < ApplicationController
   def uploadToServer
     require 'net/http'
     require 'uri'
-    uri = URI.parse('http://10.22.104.158:8080/videos/upload')
+    uri = URI.parse('http://10.170.138.22:8000/videos/upload')
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Put.new(uri.path, {'Content-Type' => 'video/*'})
     request.body = params[:video].read
@@ -81,29 +82,27 @@ class ContentsController < ApplicationController
 
     vid = params[:vidurl]
 
-    result = ''
-
-    vid.each_line do |line|
-     result = result + line.split[0] + "\n"
-    end
-
-    @playlist = Nokogiri::XML(File.open("/home/dextract/playlist.xml")) do |config|
+    @playlist = Nokogiri::XML(File.open("/home/dextract/playlist.xml"))  do |config|
       config.default_xml.noblanks
     end
 
     last_id = @playlist.xpath("//item[last()]/@id").first.value
     last_item = @playlist.xpath("//list").first
 
-    result.each_line do |line|
+    vid.each_line do |line|
       line.delete!("\n")
       last_id = last_id.to_i + 1
       name_node = Nokogiri::XML::Node.new("video",@playlist)
-      name_node.set_attribute('id', line)
+      name_node.set_attribute('id', line.split("|").first)
+      name_node.set_attribute('nome', line.split("|").last)
       data_node = Nokogiri::XML::Node.new("item",@playlist)
       data_node.add_child(name_node)
       data_node.set_attribute('id', last_id)
       data_node.set_attribute('tipo', 'video')
       last_item.add_previous_sibling(data_node)
+      item_node = Nokogiri::XML::Node.new("item",@playlist)
+      item_node.set_attribute('id', last_id)
+      last_item.add_child(item_node)
     end
 
     file = File.open("/home/dextract/playlist_new.xml", 'w+')
@@ -152,6 +151,10 @@ class ContentsController < ApplicationController
 
     def type_class
       type.constantize
+    end
+
+    def verify_login
+      redirect_to root_path, notice: "Please sign in." unless signed_in?
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

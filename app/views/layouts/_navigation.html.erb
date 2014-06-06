@@ -14,13 +14,19 @@
     if cur_page.include? '/contents/'
       contents_cp = true;
     end
+    if cur_page == '/bookmarks'
+      bookmarks = true;
+    end
 %>
 
 <div id="nav" class="box">
   <ul>
     <li><%= link_to "Home", root_path, :class => (home ? "nav-active" : nil)%></li>
-    <li><%= link_to "Users", users_path, :class => (users ? "nav-active" : nil) %></li>
-    <li><%= link_to "Contents", contents_path, :class => (contents ? "nav-active" : nil) %></li>
+    <% if signed_in? %>
+        <li><%= link_to "Contents", contents_path, :class => (contents ? "nav-active" : nil) %></li>
+        <li><%= link_to "Users", users_path, :class => (users ? "nav-active" : nil) %></li>
+        <li><%= link_to "Bookmarks", bookmarks_path, :class => (bookmarks ? "nav-active" : nil) %></li>
+    <% end %>
   </ul>
 </div>
 

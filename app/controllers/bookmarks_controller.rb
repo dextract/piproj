@@ -1,5 +1,6 @@
 class BookmarksController < ApplicationController
   before_action :set_bookmark, only: [:show, :edit, :update, :destroy]
+  before_action :verify_login
 
   # GET /bookmarks
   # GET /bookmarks.json
@@ -66,6 +67,10 @@ class BookmarksController < ApplicationController
     def set_bookmark
       @bookmark = Bookmark.find(params[:id])
     end
+
+  def verify_login
+    redirect_to root_path, notice: "Please sign in." unless signed_in?
+  end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def bookmark_params

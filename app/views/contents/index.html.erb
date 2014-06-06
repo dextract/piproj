@@ -1,6 +1,7 @@
 <h1>Listing
   <% if @type != "Content" %>
       <%=  "#{@type.pluralize}" %>
+      <%= link_to '(List  all content)', sti_content_path %>
   <% else %>
       <%=  "#{@type}" %>
   <% end %>
@@ -18,7 +19,6 @@
       <th colspan="4"></th>
     </tr>
   </thead>
-
   <tbody>
     <% @contents.each do |content| %>
       <tr>
@@ -26,28 +26,38 @@
         <td><%= content.url %></td>
         <td><%= content.type %></td>
         <td><%= content.user.name %></td>
-        <% if !current_user.bookmarks.find_by_content_id(content.id)  %>
+        <% if signed_in? && !current_user.bookmarks.find_by_content_id(content.id)  %>
             <td><%= link_to "Bookmark", bookmark_content_path(content, typeAction: "bookmark"), method: :put %></td>
         <% else %>
             <td><%= link_to "Unbookmark", bookmark_content_path(content, typeAction: "unbookmark"), method: :put %></td>
         <% end %>
         <td><%= link_to 'Show', sti_content_path(content.type, content) %></td>
-        <td><%= link_to 'Edit', sti_content_path(content.type, content, :edit) %></td>
-        <td><%= link_to 'Destroy', sti_content_path(content.type, content), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if signed_in? && current_user.admin? %>
+            <td><%= link_to 'Edit', sti_content_path(content.type, content, :edit) %></td>
+            <td><%= link_to 'Destroy', sti_content_path(content.type, content), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
         <td><%= link_to "See all #{content.type.pluralize}", sti_content_path(content.type) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<% if signed_in? && current_user.admin? %>
+<h2><%= link_to "New #{@type}", sti_content_path(@type, nil, :new) %></h2>
+<% end %>
+<hr>
 
-<br>
+<% if @type == "Video" %>
+    <h1>Upload de vídeo</h1>
+    <%= form_tag('contents/uploadToServer', multipart: true) do %>
+        <%= file_field_tag 'video' %>
+        <%= submit_tag 'Upload' %>
+    <% end %>
+    <br>
+    <hr>
+<% end %>
 
-
-<%#= collection_select :content, :content_id, Video.all, :id, :full_name, {multiple: "multiple"}, {class: "multiselect"} %>
-
+<% if signed_in? && current_user.admin? %>
+    <h1>Definição da playlist</h1>
     <%= select(:content, :content_id, Video.all.map {|p| [p.full_name, p.url]}, {}, { class: "multiselect", :multiple => "multiple", :style => "width:300px"}) %>
     <%= button_tag 'Set playlist', {class: "button"} %>
-
-
-<%= link_to "New #{@type}", sti_content_path(@type, nil, :new) %>
-<%= link_to 'See all content', sti_content_path %>
+<% end %>

@@ -2,12 +2,12 @@
 
 <p>
   <strong>User:</strong>
-  <%= @bookmark.user_id %>
+  <%= @bookmark.user.name %>
 </p>
 
 <p>
   <strong>Content:</strong>
-  <%= @bookmark.content_id %>
+  <%= @bookmark.content.description %>
 </p>
 
 <%= link_to 'Edit', edit_bookmark_path(@bookmark) %> |
