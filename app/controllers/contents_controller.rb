@@ -88,7 +88,7 @@ class ContentsController < ApplicationController
 
     last_id = hash["playlist"].last["id"].to_i
 
-    File.open("/home/dextract/playlist_new.json", "w") do |f|
+   # File.open("/home/dextract/playlist_new.json", "w") do |f|
       vid.each_line do |line|
         line.delete!("\n")
         vidid = line.split("|").first
@@ -99,8 +99,8 @@ class ContentsController < ApplicationController
         hash["playlist"] << playlistToAdd
         last_id = last_id + 1
       end
-      f.write(JSON.pretty_generate(hash))
-    end
+    #  f.write(JSON.pretty_generate(hash))
+    #end
 
     uri = URI.parse('http://10.170.138.22:8000/playlists/di')
     http = Net::HTTP.new(uri.host, uri.port)

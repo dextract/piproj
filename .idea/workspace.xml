@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="336eb89a-2010-4101-98ca-787172408b03" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/db/migrate/20140526005303_create_videos.rb" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile.lock" afterPath="$PROJECT_DIR$/Gemfile.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile" afterPath="$PROJECT_DIR$/Gemfile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/contents_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/contents_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/piproj.iml" afterPath="$PROJECT_DIR$/.idea/piproj.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="piproj.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -19,7 +15,7 @@
     <file path="/content.rb" changelist="336eb89a-2010-4101-98ca-787172408b03" time="1401364180935" ignored="false" />
     <file path="/20140526015346_remove_uploads.rb" changelist="336eb89a-2010-4101-98ca-787172408b03" time="1401069292871" ignored="false" />
     <file path="/_form.html.erb" changelist="336eb89a-2010-4101-98ca-787172408b03" time="1401404052786" ignored="false" />
-    <file path="/contents_controller.rb" changelist="336eb89a-2010-4101-98ca-787172408b03" time="1402245734748" ignored="false" />
+    <file path="/contents_controller.rb" changelist="336eb89a-2010-4101-98ca-787172408b03" time="1402246477007" ignored="false" />
     <file path="/index.html.erb" changelist="336eb89a-2010-4101-98ca-787172408b03" time="1401407366260" ignored="false" />
     <file path="/show.html.erb" changelist="336eb89a-2010-4101-98ca-787172408b03" time="1401403734291" ignored="false" />
     <file path="/home_controller.rb" changelist="336eb89a-2010-4101-98ca-787172408b03" time="1401185352960" ignored="false" />
@@ -82,7 +78,7 @@
       <file leaf-file-name="contents_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/contents_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="109" column="45" selection-start="3234" selection-end="3234" vertical-scroll-proportion="0.36585367">
+            <state line="103" column="15" selection-start="2962" selection-end="2962" vertical-scroll-proportion="0.5487805">
               <folding />
             </state>
           </provider>
@@ -1020,7 +1016,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/contents_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="109" column="45" selection-start="3234" selection-end="3234" vertical-scroll-proportion="0.36585367">
+        <state line="103" column="15" selection-start="2962" selection-end="2962" vertical-scroll-proportion="0.5487805">
           <folding />
         </state>
       </provider>
