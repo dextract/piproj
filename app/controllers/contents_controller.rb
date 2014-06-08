@@ -75,49 +75,42 @@ class ContentsController < ApplicationController
     redirect_to contents_url, notice: 'Content was successfully uploaded to the server.'+response.body
   end
 
+
   def setPlaylist
 
-    require 'net/http'
-    require 'uri'
+    require 'json'
+    require 'open-uri'
 
     vid = params[:vidurl]
 
-    @playlist = Nokogiri::XML(File.open("/home/dextract/playlist.xml"))  do |config|
-      config.default_xml.noblanks
+    #hash = JSON.parse(File.read("/home/dextract/playlist.json"))
+    hash = JSON.parse(open("http://10.170.138.22:8000/playlists/di").read)
+
+    last_id = hash["playlist"].last["id"].to_i
+
+    File.open("/home/dextract/playlist_new.json", "w") do |f|
+      vid.each_line do |line|
+        line.delete!("\n")
+        vidid = line.split("|").first
+        video = Video.find_by url: vidid
+        itemToAdd = {"id" => last_id+1, "tipo" => "video", "conteudo" => {"id" => video.url, "nome" => video.description}}
+        playlistToAdd = {"id" => (last_id+1).to_s}
+        hash["items"] << itemToAdd
+        hash["playlist"] << playlistToAdd
+        last_id = last_id + 1
+      end
+      f.write(JSON.pretty_generate(hash))
     end
 
-    last_id = @playlist.xpath("//item[last()]/@id").first.value
-    last_item = @playlist.xpath("//list").first
-
-    vid.each_line do |line|
-      line.delete!("\n")
-      last_id = last_id.to_i + 1
-      name_node = Nokogiri::XML::Node.new("video",@playlist)
-      name_node.set_attribute('id', line.split("|").first)
-      name_node.set_attribute('nome', line.split("|").last)
-      data_node = Nokogiri::XML::Node.new("item",@playlist)
-      data_node.add_child(name_node)
-      data_node.set_attribute('id', last_id)
-      data_node.set_attribute('tipo', 'video')
-      last_item.add_previous_sibling(data_node)
-      item_node = Nokogiri::XML::Node.new("item",@playlist)
-      item_node.set_attribute('id', last_id)
-      last_item.add_child(item_node)
-    end
-
-    file = File.open("/home/dextract/playlist_new.xml", 'w+')
-    file.puts @playlist.to_xml(:indent => 2)
-
-    uri = URI.parse('http://10.170.138.22:8000/playlists/update/1')
+    uri = URI.parse('http://10.170.138.22:8000/playlists/di')
     http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new(uri.path, {'Content-Type' => 'text/xml'})
-    request.body = @playlist.to_xml(:indent => 2, :encoding => "UTF-8")
+    request = Net::HTTP::Post.new(uri.path, {'Content-Type' => 'application/json'})
+    request.body = JSON.pretty_generate(hash)
     response = http.request(request)
 
-    flash[:notice] = response.message+' '+response.body
+    flash[:notice] = response.message
     render :js => 'window.location.reload()'
   end
-
 
   def bookmark
     typeAction = params[:typeAction]
