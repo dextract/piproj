@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   has_many :contents
+  has_many :visuals
   has_many :bookmarks
   has_many :bookmarked, through: :bookmarks, source: :content
-
 
 
   before_save { self.email = email.downcase }

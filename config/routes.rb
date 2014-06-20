@@ -1,9 +1,17 @@
 Rails.application.routes.draw do
+  resources :visual_utilizations
+
+  resources :visuals do
+    put :associate, on: :member
+  end
+
   resources :bookmarks
   resources :contents do
     put :bookmark, on: :member
   end
-  resources :videos, controller: 'contents', type: 'Video'
+  resources :videos, controller: 'visuals', type: 'Video'
+  resources :images, controller: 'visuals', type: 'Image'
+  resources :bibliotecas, controller: 'contents', type: 'Biblioteca'
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
 

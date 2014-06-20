@@ -1,0 +1,2 @@
+module VisualUtilizationsHelper
+end

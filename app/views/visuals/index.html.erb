@@ -1,0 +1,52 @@
+<h1>Listing
+  <% if @type != "Visual" %>
+      <%=  "#{@type.pluralize}" %>
+      <%= link_to '(List all visuals)', sti_visual_path %>
+  <% else %>
+      <%=  "#{@type}" %>
+  <% end %>
+</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <% if @type == "Video" %>
+        <th>Youtube_id</th>
+      <% elsif @type == "Image" %>
+          <th>Image</th>
+      <% else %>
+          <th>Youtube_id/Image</th>
+      <% end %>
+      <th>Description</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @visuals.each do |visual| %>
+      <tr>
+        <td><%= visual.type %></td>
+        <% if visual.type == "Video" %>
+            <td><%= visual.youtube_id %></td>
+        <% else %>
+            <td><%= image_tag visual.image.url(:thumb) %></td>
+        <% end %>
+        <td><%= visual.description %></td>
+        <td><%= visual.user.name %></td>
+        <td><%= link_to 'Show', sti_visual_path(visual.type, visual) %></td>
+        <% if signed_in? && current_user.admin? %>
+            <td><%= link_to 'Edit', sti_visual_path(visual.type, visual, :edit) %></td>
+            <td><%= link_to 'Destroy', sti_visual_path(visual.type, visual), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+        <% if @type == "Visual" %>
+            <td><%= link_to "See all #{visual.type.pluralize}", sti_visual_path(visual.type) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% if signed_in? && current_user.admin? %>
+    <h2><%= link_to "New #{@type}", sti_visual_path(@type, nil, :new) %></h2>
+<% end %>

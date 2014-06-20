@@ -1,0 +1,25 @@
+<%= form_for(@visual_utilization) do |f| %>
+  <% if @visual_utilization.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@visual_utilization.errors.count, "error") %> prohibited this visual_utilization from being saved:</h2>
+
+      <ul>
+      <% @visual_utilization.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :content_id %><br>
+    <%= f.number_field :content_id %>
+  </div>
+  <div class="field">
+    <%= f.label :visual_id %><br>
+    <%= f.number_field :visual_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,52 @@
+<%= form_for(@visual) do |f| %>
+  <% if @visual.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@visual.errors.count, "error") %> prohibited this visual from being saved:</h2>
+
+      <ul>
+      <% @visual.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div class="field">
+      <%= f.label :type %><br>
+      <%= f.select :type, Visual.types.map {|r| [r.humanize, r.camelcase]}, {}, disabled: @type != "Visual" %>
+      <% if @type != "Visual" %>
+          <%= f.hidden_field :type, value: @type %>
+      <% end %>
+    </div>
+    <% if @type == "Video" %>
+        <div class="field">
+            <%= f.label :youtube_id %><br>
+            <%= f.text_field :youtube_id %>
+        </div>
+    <% elsif @type == "Image" %>
+        <div class="field">
+            <%= f.label :image %><br>
+            <%= f.file_field :image %>
+        </div>
+    <% else %>
+        <div class="field">
+          <%= f.label :youtube_id %><br>
+          <%= f.text_field :youtube_id %>
+        </div>
+        <div class="field">
+          <%= f.label :image %><br>
+          <%= f.file_field :image %>
+        </div>
+    <% end %>
+
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </div>
+    <div class="field">
+      <%= f.hidden_field :user_id, value: current_user.id  %>
+    </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

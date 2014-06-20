@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  youtube-id: MyString
+  description: MyString
+  user_id: 1
+
+two:
+  type: 
+  youtube-id: MyString
+  description: MyString
+  user_id: 1

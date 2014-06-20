@@ -13,6 +13,7 @@ class ContentsController < ApplicationController
   # GET /contents/1
   # GET /contents/1.json
   def show
+    @visuals = Visual.where.not(id: @content.utilizations.ids)
   end
 
   # GET /contents/new
@@ -152,6 +153,7 @@ class ContentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def content_params
-      params.require(type.underscore.to_sym).permit(:description, :url, :type, :user_id)
+      params.require(type.underscore.to_sym).permit(:name, :description, :organization, :type,
+                                                    :user_id, :time, :visualType, :beginDate, :endDate, :local)
     end
 end

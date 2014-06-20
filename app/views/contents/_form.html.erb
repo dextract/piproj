@@ -12,24 +12,45 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_field :description %>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
   </div>
   <div class="field">
-     <%= f.label :url %><br>
-     <%= f.text_field :url %>
-   </div>
+     <%= f.label :description %><br>
+     <%= f.text_area :description %>
+  </div>
+  <div class="field">
+    <%= f.label :type %><br>
+    <%= f.select :type, Content.types.map {|r| [r.humanize, r.camelcase]}, {} %>
+    <% if @type != "Content" %>
+        <%= f.hidden_field :type, value: @type %>
+    <% end %>
+  </div>
+  <div class="field">
+    <%= f.hidden_field :user_id, value: current_user.id  %>
+  </div>
+  <div class="field">
+    <%= f.label :organization %><br>
+    <%= f.text_field :organization %>
+  </div>
     <div class="field">
-      <%= f.label :type %><br>
-      <%= f.select :type, Content.types.map {|r| [r.humanize, r.camelcase]}, {}, disabled: @type != "Content" %>
-      <% if @type != "Content" %>
-          <%= f.hidden_field :type, value: @type %>
-      <% end %>
+      <%= f.label :visualType %><br>
+      <%= f.select :visualType, Visual.types.map {|r| [r.humanize, r.camelcase]}, {} %>
     </div>
-  <div class="field">
-    <%= f.label :user %><br>
-    <%= f.collection_select(:user_id, User.all, :id, :name) %>
-  </div>
+    <div class="field">
+      <%= f.label :time %><br>
+      <%= f.time_field :time %>
+    </div>
+    <div class="field">
+      <%= f.label :beginDate %><br>
+      <%= f.date_field :beginDate %>
+    </div>
+    <div class="field">
+      <%= f.label :endDate %><br>
+      <%= f.date_field :endDate %>
+    </div>
+    <%= f.label :local %><br>
+    <%= f.text_field :local %>
   <div class="actions">
     <%= f.submit %>
   </div>

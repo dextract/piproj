@@ -4,8 +4,10 @@ development:
   encoding: unicode
   database: myapp_development
   pool: 5
-  username: piproj
-  password: piproj
+  username: postgres
+  password: password
+  port: 2222
+
 
 test:
   adapter: postgresql

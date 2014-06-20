@@ -1,13 +1,14 @@
 <p id="notice"><%= notice %></p>
 
+
 <p>
-  <strong>Description:</strong>
-  <%= @content.description %>
+  <strong>Name:</strong>
+  <%= @content.name %>
 </p>
 
 <p>
-  <strong>URL:</strong>
-  <%= @content.url %>
+  <strong>Description:</strong>
+  <%= @content.description %>
 </p>
 
 <p>
@@ -16,12 +17,82 @@
 </p>
 
 <p>
+  <strong>Organization:</strong>
+  <%= @content.organization %>
+</p>
+
+<p>
   <strong>User:</strong>
   <%= @content.user.name %>
 </p>
 
-<iframe width="420" height="345" src="<%= "http://www.youtube.com/embed/"+@content.url %>" frameborder="0"></iframe>
+<p>
+  <strong>Time:</strong>
+  <%= @content.time %>
+</p>
+
+<p>
+  <strong>Begin Date:</strong>
+  <%= @content.beginDate %>
+</p>
+
+<p>
+  <strong>End Date:</strong>
+  <%= @content.endDate %>
+</p>
+
+<p>
+  <strong>Local:</strong>
+  <%= @content.local %>
+</p>
+
 <br>
+
+<% if !@content.utilizations.empty? %>
+
+<h2>Utilizations</h2>
+
+<table>
+  <thead>
+  <tr>
+    <th>Type</th>
+    <th>Youtube_id/Image</th>
+    <th>Description</th>
+    <th>User</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @content.utilizations.each do |visual| %>
+      <tr>
+        <td><%= visual.type %></td>
+        <% if visual.type == "Video" %>
+            <td><%= visual.youtube_id %></td>
+        <% else %>
+            <td><%= image_tag visual.image.url(:thumb) %></td>
+        <% end %>
+        <td><%= visual.description %></td>
+        <td><%= visual.user.name %></td>
+        <td><%= link_to 'Show', sti_visual_path(visual.type, visual) %></td>
+        <% if signed_in? && current_user.admin? %>
+            <td><%= link_to "Desassociate", associate_visual_path(visual, content: @content, typeAction: "desassociate"), method: :put %></td>
+            <td><%= link_to 'Edit', sti_visual_path(visual.type, visual, :edit) %></td>
+            <td><%= link_to 'Destroy', sti_visual_path(visual.type, visual), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+        <% if @type == "Visual" %>
+            <td><%= link_to "See all #{visual.type.pluralize}", sti_visual_path(visual.type) %></td>
+        <% end %>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<% end %>
+
+<h2>Associate</h2>
+
+<%= render :partial => "visualsIndex" %>
 
 <%= link_to 'Edit', edit_content_path(@content) %> |
 <%= link_to 'Back', contents_path %>

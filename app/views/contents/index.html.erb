@@ -12,20 +12,32 @@
 <table>
   <thead>
     <tr>
+      <th>Name</th>
       <th>Description</th>
-      <th>URL</th>
       <th>Type</th>
-      <th>Uploader</th>
+      <th>Creator Name</th>
+      <th>Organization</th>
+      <th>Visual Type</th>
+      <th>Time</th>
+      <th>Begin Date</th>
+      <th>End Date</th>
+      <th>Local</th>
       <th colspan="4"></th>
     </tr>
   </thead>
   <tbody>
     <% @contents.each do |content| %>
       <tr>
+        <td><%= content.name %></td>
         <td><%= content.description %></td>
-        <td><%= content.url %></td>
         <td><%= content.type %></td>
         <td><%= content.user.name %></td>
+        <td><%= content.organization %></td>
+        <td><%= content.visualType %></td>
+        <td><%= content.time.strftime("%H:%M") %></td>
+        <td><%= content.beginDate %></td>
+        <td><%= content.endDate %></td>
+        <td><%= content.local %></td>
         <% if signed_in? && !current_user.bookmarks.find_by_content_id(content.id)  %>
             <td><%= link_to "Bookmark", bookmark_content_path(content, typeAction: "bookmark"), method: :put %></td>
         <% else %>
@@ -38,6 +50,8 @@
         <% end %>
         <td><%= link_to "See all #{content.type.pluralize}", sti_content_path(content.type) %></td>
       </tr>
+
+
     <% end %>
   </tbody>
 </table>
@@ -58,6 +72,6 @@
 
 <% if signed_in? && current_user.admin? %>
     <h1>Definição da playlist</h1>
-    <%= select(:content, :content_id, Video.all.map {|p| [p.full_name, p.url]}, {}, { class: "multiselect", :multiple => "multiple", :style => "width:300px"}) %>
+    <%= select(:content, :content_id, Content.all.map {|p| [p.name, p.id]}, {}, { class: "multiselect", :multiple => "multiple", :style => "width:300px"}) %>
     <%= button_tag 'Set playlist', {class: "button"} %>
 <% end %>

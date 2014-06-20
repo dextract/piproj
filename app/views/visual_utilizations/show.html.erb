@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @visual_utilization.content.name %>
+</p>
+
+<p>
+  <strong>Visual:</strong>
+  <%= @visual_utilization.visual.description %>
+</p>
+
+<%= link_to 'Edit', edit_visual_utilization_path(@visual_utilization) %> |
+<%= link_to 'Back', visual_utilizations_path %>
